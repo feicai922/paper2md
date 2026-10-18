@@ -1,0 +1,49 @@
+# === 运行时数据:任务、产物、日志,绝不要提交 ===
+data/
+logs/*
+!logs/.gitkeep
+*.log
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# === 前端 ===
+web/node_modules/
+web/auto-imports.d.ts
+web/components.d.ts
+# 构建产物:部署时用 `npm run build` 生成(见 DEPLOY.md)
+app/static/dist/
+
+# === 本地配置 / 凭据:泄露风险最高的一类 ===
+.env
+.env.*
+*.local
+secrets.json
+# 内网穿透配置里有服务器地址和 token,别提交
+frp/frpc.toml
+frpc.toml
+
+# === 模型与缓存(体积大,可重新下载)===
+.cache/
+models/
+*.safetensors
+*.ckpt
+*.gguf
+*.onnx
+
+# === 编辑器 / 系统 ===
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~

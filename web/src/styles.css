@@ -1,0 +1,128 @@
+/* 全局样式:配合 Element Plus,统一配色与留白。
+   组件层面尽量用 el-* 自带样式,这里只做页面骨架与少量微调。 */
+
+:root {
+  /* 覆盖 Element Plus 主色,保持品牌一致 */
+  --el-color-primary: #2563eb;
+  --el-color-primary-light-3: #5b8def;
+  --el-color-primary-light-5: #93b4f5;
+  --el-color-primary-light-7: #c7d9fa;
+  --el-color-primary-light-8: #dbe7fc;
+  --el-color-primary-light-9: #eef4fe;
+  --el-color-primary-dark-2: #1d4ed8;
+
+  --page-bg: #f6f7f9;
+  --card-radius: 12px;
+  --fg: #111827;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #app { height: 100%; }
+
+body {
+  margin: 0;
+  font: 15px/1.6 -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: var(--fg);
+  background: var(--page-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 34px 20px 90px;
+}
+
+/* 页头 */
+.page-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+.page-head h1 {
+  font-size: 22px;
+  margin: 0 0 6px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+.page-head .sub {
+  color: var(--muted);
+  font-size: 13.5px;
+}
+
+/* 卡片:用 el-card 但统一圆角与间距 */
+.el-card {
+  border-radius: var(--card-radius) !important;
+  border-color: var(--line) !important;
+  margin-bottom: 16px;
+}
+.el-card__body { padding: 22px; }
+
+/* 让 Element 的按钮在页头区域更协调 */
+.page-head .el-button + .el-button { margin-left: 0; }
+
+/* 文本工具类 */
+.muted { color: var(--muted); }
+.mono { font-variant-numeric: tabular-nums; }
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 文件清单 */
+.file-list {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  font-size: 13.5px;
+}
+.file-item:first-child { border-top: none; }
+.file-item .name { flex: 1; word-break: break-all; }
+.file-item .size { color: var(--muted); font-size: 12.5px; white-space: nowrap; }
+
+/* 统计数字条 */
+.stat-row {
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.stat-row b { color: var(--fg); font-size: 16px; font-weight: 600; }
+
+/* 拖拽上传区 */
+.drop-zone {
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 36px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: .18s;
+  background: #fcfcfd;
+}
+.drop-zone:hover,
+.drop-zone.is-over {
+  border-color: var(--el-color-primary);
+  background: var(--el-color-primary-light-9);
+}
+.drop-zone.is-disabled { opacity: .55; cursor: not-allowed; }
+.drop-zone .title { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+.drop-zone .title small { font-weight: 400; color: var(--muted); font-size: 13px; }
+.drop-zone .desc { color: var(--muted); font-size: 13px; }

@@ -1,0 +1,25 @@
+# Caddy 2 示例(自动 HTTPS + Basic Auth)。
+# 注意:本项目没有内置登录,Caddy 这层是唯一的访问控制,公网必须加。
+# 密码哈希用: caddy hash-password --plaintext '你的密码'
+
+md.example.com {
+	encode gzip
+
+	# v2.8+ 是 basic_auth;更早的版本写 basicauth
+	basic_auth {
+		user $2a$14$替换成caddy生成的哈希
+	}
+
+	reverse_proxy 127.0.0.1:8300 {
+		# 转换是长任务,别让网关提前断开(默认 0 = 不限,这里显式写出)
+		transport http {
+			read_timeout 3600s
+			write_timeout 3600s
+		}
+	}
+
+	# 上传上限(MB)
+	request_body {
+		max_size 220MB
+	}
+}
