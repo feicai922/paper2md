@@ -80,11 +80,17 @@ def pick_device(force: str) -> str:
         neg_util, neg_free, idx = fits[0]
         log(f"选卡 gpu:{idx}(空闲 {-neg_free // 1048576}MB, 利用率 {-neg_util}%)")
         return f"cuda:{idx}"
+    # 没有卡满足 need:共享机器上硬挤会比 CPU 更慢(甚至直接 OOM),
+    # 所以只有「最空的卡还够底线」才用它,否则老老实实回 CPU。
+    floor_mb = int(os.environ.get("OT_MINERU_MIN_FREE_MB", "6000") or 6000)
     if others:
         free, idx = max(others)
-        log(f"没有卡满足 {need_mb}MB 空闲,退而用最空的 gpu:{idx}"
-            f"({free // 1048576}MB, utils={utils.get(idx)})")
-        return f"cuda:{idx}"
+        if free >= floor_mb * 1024 * 1024:
+            log(f"没有卡满足 {need_mb}MB 空闲,用最空的 gpu:{idx}"
+                f"({free // 1048576}MB, utils={utils.get(idx)}),可能较慢")
+            return f"cuda:{idx}"
+        log(f"最空的卡只剩 {free // 1048576}MB(低于 {floor_mb}MB 底线),回落 cpu")
+        return "cpu"
     log("没有可用显卡,回落 cpu")
     return "cpu"
 
